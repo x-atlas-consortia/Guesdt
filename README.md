@@ -1,6 +1,10 @@
 # Guesdt application
 ## Graphing UMLS Enables Search In Dynamic Trees
 
+# GitHub Pages site
+
+The Guesdt application is hosted as a GitHub Pages site at
+https://x-atlas-consortia.github.io/Guesdt/
 
 # Application architecture
 Guesdt is a web application consisting of a HTML/JavaScript front end that calls REST endpoints of the [UBKG API](https://github.com/x-atlas-consortia/ubkg-api).
