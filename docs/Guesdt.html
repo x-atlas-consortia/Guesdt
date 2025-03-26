@@ -63,7 +63,11 @@
     div.thecodedisplaydiv {
         overflow: scroll;
         word-wrap: break-word;
-        height: 480px;
+        height: 420px;
+    }
+
+    div.spinner {
+      height: 60px;
     }
 
     .result {
@@ -281,6 +285,11 @@
         .attr("class", "thecodedisplaydiv")
         .text("")
         .attr("id","thecodedisplay");
+      // March 2025 added spinner.
+      popup.append("div")
+        .attr("class", "spinner")
+        .attr("id","spinner");
+      
     }
 
      callpopup(code,"");
@@ -331,6 +340,15 @@
       // get all concepts with asserted relations to the CUI
       //console.log('Calling API for concepts for ' + encodeURIComponent(getData.data.cui));
 
+      // March 2025 - Start the animated spinner at the beginning of the fetch.
+      var elem = document.createElement("img");
+      elem.setAttribute("src", "Broken wheel.gif");
+      elem.setAttribute("height", "100");
+      elem.setAttribute("width", "100");
+      elem.setAttribute("align","right");
+      //elem.setAttribute("display","inline-block");
+      elem.setAttribute("alt", "Fetching...");
+      document.getElementById("spinner").appendChild(elem);
 
       d3.queue()
       .defer(Guesdt,'/concepts/'+encodeURIComponent(getData.data.cui)+'/concepts')
@@ -363,8 +381,7 @@
               dataType: "json",
               url: `${s3url}`,
               async: false,
-              //beforeSend: function() {$("#spinner").show();},
-              success: function(s3data){jsonData = s3data;} //$("#spinner").hide()},
+              success: function(s3data){jsonData = s3data;}
             });
 
             // Because the jQuery result is a JSON object, use stringify to make this result parallel to the result of the 
@@ -378,6 +395,14 @@
 
           };
         };
+
+        // March 2025
+        // Turn off spinner animation.
+        const divElement = document.getElementById('spinner');
+        const images = divElement.querySelectorAll('img');
+        images.forEach(image => {
+          image.remove();
+        });
 
         data = JSON.parse(data);
         thedata = data;
