@@ -95,6 +95,9 @@
 </style>
 <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- Mar 2025 JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script><
+
   <script>
       // BEGIN Setup and Initialization
       //Below is the example from "calling service" with (default) server and key
@@ -121,6 +124,7 @@
     	.attr("class", "tooltip")
     	.style("opacity", 0);
 
+  
     // set various visualization parameters and initiate the svg, zoom, etc.
     var i = 0, j = 0, k = 0,
     duration = 100,
@@ -325,11 +329,56 @@
       nchildren = 0;
       grandChild = 0;
       // get all concepts with asserted relations to the CUI
+      //console.log('Calling API for concepts for ' + encodeURIComponent(getData.data.cui));
+
+
       d3.queue()
       .defer(Guesdt,'/concepts/'+encodeURIComponent(getData.data.cui)+'/concepts')
       .awaitAll(function(error, data) {
-    //if (error) throw error;
-        if (error) {data ='[]'};
+      //if (error) throw error;
+        
+        //if (error) {data ='[]'};
+
+        // March 2025 - If the payload is too large, the API will return 
+        // a 303 error code and a response (ProgressEvent) that includes the URL to where
+        // the API stored the response in S3.
+
+        if (error) {
+
+          if (error.target.status == 303) {
+
+            // Fetch the stored file content from S3.
+            // This fetch must be synchronous, as the S3 file data is replacing the original response content in-stream.
+
+            // Use jQuery to force a synchronous fetch. The d3 v4 defer/awaitAll feature does not appear to work for nested 
+            // operations--e.g., an awaitall that calls an awaitall.
+
+            // Mar 2025 Dev note: when the data-distillery-api is updated to use the new ubkg-api, the redirect 
+            // response is a JSON with key "url" instead of a simple text string. 
+            // The URL will be error.target.responseText.url.
+
+            let s3url = error.target.responseText;
+            var jsonData;
+            jQuery.ajax({
+              dataType: "json",
+              url: `${s3url}`,
+              async: false,
+              //beforeSend: function() {$("#spinner").show();},
+              success: function(s3data){jsonData = s3data;} //$("#spinner").hide()},
+            });
+
+            // Because the jQuery result is a JSON object, use stringify to make this result parallel to the result of the 
+            // non-303 error condition. 
+            data = JSON.stringify(jsonData);
+
+          } else {
+
+              // Return a blank list, primarily for the subsequent visualization.
+              data = '[]';
+
+          };
+        };
+
         data = JSON.parse(data);
         thedata = data;
         data = [];
@@ -709,6 +758,7 @@
           }
         }
       }
+
     }); // this is the end of the awaitAll inside updateData
     }
   </script>
