@@ -349,11 +349,13 @@
             // Fetch the stored file content from S3.
             // This fetch must be synchronous, as the S3 file data is replacing the original response content in-stream.
 
+            // Use jQuery to force a synchronous fetch. The d3 v4 defer/awaitAll feature does not appear to work for nested 
+            // operations--e.g., an awaitall that calls an awaitall.
+
             // Mar 2025 Dev note: when the data-distillery-api is updated to use the new ubkg-api, the redirect 
             // response is a JSON with key "url" instead of a simple text string. 
             // The URL will be error.target.responseText.url.
 
-            // Use jQuery to force a synchronous fetch.
             let s3url = error.target.responseText;
             var jsonData;
             jQuery.ajax({
@@ -362,11 +364,15 @@
               async: false,
               success: function(s3data){jsonData = s3data}
             });
+
+            // Because the jQuery result is a JSON object, use stringify to make this result parallel to the result of the 
+            // non-303 error condition. 
             data = JSON.stringify(jsonData);
 
           } else {
 
-            data = '[]';
+              // Return a blank list, primarily for the subsequent visualization.
+              data = '[]';
 
           };
         };
