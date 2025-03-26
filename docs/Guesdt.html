@@ -124,6 +124,7 @@
     	.attr("class", "tooltip")
     	.style("opacity", 0);
 
+  
     // set various visualization parameters and initiate the svg, zoom, etc.
     var i = 0, j = 0, k = 0,
     duration = 100,
@@ -328,7 +329,7 @@
       nchildren = 0;
       grandChild = 0;
       // get all concepts with asserted relations to the CUI
-      console.log('Calling API for concepts for ' + encodeURIComponent(getData.data.cui));
+      //console.log('Calling API for concepts for ' + encodeURIComponent(getData.data.cui));
 
 
       d3.queue()
@@ -362,7 +363,8 @@
               dataType: "json",
               url: `${s3url}`,
               async: false,
-              success: function(s3data){jsonData = s3data}
+              //beforeSend: function() {$("#spinner").show();},
+              success: function(s3data){jsonData = s3data;} //$("#spinner").hide()},
             });
 
             // Because the jQuery result is a JSON object, use stringify to make this result parallel to the result of the 
