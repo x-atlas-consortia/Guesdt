@@ -229,6 +229,7 @@
     // popup setup
     contextMenuShowing = true;
     var titleText = "Graphing UMLS Enables Search in Dynamic Trees (Guesdt)";
+    var servername = sessionStorage.getItem("UBKG-server");
     function callpopup(code, term) {
       popup = d3.select("body")
           .append("div")
@@ -240,6 +241,12 @@
         .attr("type","button")
         .attr("value","Dismiss")
         .attr("onclick","contextMenuShowing = false; d3.select('.popup').remove();");
+      popup.append("div")
+        .text("-------------------------------------------------------------------------------------------------");
+      popup.append()
+        .text("UBKG API context: " + servername);
+      popup.append()
+        .text("  ");
       popup.append("div")
         .text("-------------------------------------------------------------------------------------------------");
       popup.append("input")
