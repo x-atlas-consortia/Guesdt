@@ -6,6 +6,8 @@
 The Guesdt application is hosted as a GitHub Pages site at
 https://x-atlas-consortia.github.io/Guesdt/
 
+The GitHub Pages deployment is [here](https://github.com/x-atlas-consortia/Guesdt/settings/pages).
+
 # Application architecture
 Guesdt is a web application consisting of a HTML/JavaScript front end that calls REST endpoints of the [UBKG API](https://github.com/x-atlas-consortia/ubkg-api).
 
@@ -17,7 +19,7 @@ Guesdt consists of the following files:
 - **NivDemo.pdf** a screen capture of Guesdt in action
 
 
-# Docker
+# Docker deployments
 
 As a web application, Guesdt requires a web server host. The Docker distribution of Guesdt builds a Docker container that includes 
 a Nginx web server to host the application.
@@ -36,3 +38,5 @@ The Docker deployment consists of the following files:
 3. Run **run_local.sh**.
 4. In a Web browser, go to http://localhost:8080/index.html.
 
+## As a service of a **UBKGBox** distribution
+PENDING

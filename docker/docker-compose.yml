@@ -1,0 +1,18 @@
+services:
+
+  # The ubkg-guestdt service hosts an instance of Guesdt.
+
+  ubkg-guesdt:
+    hostname: ubkg-guestd
+    container_name: guesdt
+    # Map host machine port 7300 to container port 8080
+    ports:
+      - "7300:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    init: true
+    restart: always
