@@ -3,3 +3,6 @@
 
 # Mac OSX
 .DS_Store
+
+# log files in any path
+**/*.log
