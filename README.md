@@ -1,13 +1,6 @@
 # Guesdt application
 ## Graphing UMLS Enables Search In Dynamic Trees
 
-# GitHub Pages site
-
-The Guesdt application is hosted as a GitHub Pages site at
-https://x-atlas-consortia.github.io/Guesdt/
-
-The GitHub Pages deployment is [here](https://github.com/x-atlas-consortia/Guesdt/settings/pages).
-
 # Application architecture
 Guesdt is a web application consisting of a HTML/JavaScript front end that calls REST endpoints of the [UBKG API](https://github.com/x-atlas-consortia/ubkg-api).
 
@@ -18,25 +11,25 @@ Guesdt consists of the following files:
 - **Guesdt.html**: the main UI front end that works with the UBKG API
 - **NivDemo.pdf** a screen capture of Guesdt in action
 
+## Implementations
 
-# Docker deployments
+### GitHub Pages site
 
-As a web application, Guesdt requires a web server host. The Docker distribution of Guesdt builds a Docker container that includes 
-a Nginx web server to host the application.
+The Guesdt application is hosted as a GitHub Pages site at
+https://x-atlas-consortia.github.io/Guesdt/
+
+The GitHub Pages deployment is [here](https://github.com/x-atlas-consortia/Guesdt/settings/pages).
+
+The source for the GitHub Pages deployment is in the _/docs_ folder.
+
+### UBKGBox component (ubkg-guesdt)
+Guesdt is a component of a **UBKGBox** multi-container application.
 
 The Docker deployment consists of the following files:
 - the **Dockerfile**
-- the static files of the Guesdt application
+- the Docker Compose files
+  - development-docker-compose.yml
+  - docker-compose.yml
+- The **build_ubkg-guesdt.sh** script
+- the static files of the Guesdt application, located in the _ubkgbox_ folder
 - **/conf/nginx.conf**: the configuration file for the web server
-- **build_local.sh**: a shell script that builds a local Docker image named *guesdt-nginx*
-- **run_local.sh**: a shell script that builds a local Docker container named *guesdt*
-
-## Local Deployment instructions
-
-1.  [Install Docker on the local machine](https://docs.docker.com/engine/install/).
-2. Run **build_local.sh**.
-3. Run **run_local.sh**.
-4. In a Web browser, go to http://localhost:8080/index.html.
-
-## As a service of a **UBKGBox** distribution
-PENDING
