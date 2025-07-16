@@ -1,4 +1,8 @@
-<!--UBKGBox deployment of Guesdt visualization-->
+<!--
+    UBKGBox deployment of Guesdt
+    The UBKGBox deployment integrates Guesdt into a service that is behind the UBKGBox's
+    reverse proxy. The reverse proxy passes authentication information to Guesdt.
+-->
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -117,11 +121,11 @@
       // For all calls to this function in the UBKGBox deployment, the value of
       // eJSON should not start with a forward slash prefix.
 
-      // The UMLS key is passed to Guesdt by the reverse proxy.
-      const params = new URLSearchParams(window.location.search);
-      const umlskey = params.get('umls-key');
+      // The UBKGBox reverse proxy passes the UMLS key to Guesdt in a session cookie.
+      const umlskey = sessionStorage.getItem('umls-key');
 
-      d3.request("/api?umls-key=" + umlskey + "&endpoint=" + eJSON)
+      //Call the api endpoint of the reverse proxy, which forwards to the ubkg-api.
+      d3.request("/api/" + eJSON)
         .header("Content-Type", "application/json; charset=UTF-8")
         .header("Accept", "application/json; charset=UTF-8")
         .send("GET", function(error, data) { callback(error, data); })
@@ -247,11 +251,7 @@
     var serverapiurl = "http://ubkg-api:8080";
 
     // The window.open commands in the popup trigger a redirect to /guesdt, which goes to
-    // the UBKGBox front end/reverse proxy. Add the umls key to the URL so that
-    // the reverse proxy can properly authenticate; it will then then pass the key back
-    // to the page.
-    const params = new URLSearchParams(window.location.search);
-    const umlskey = params.get('umls-key');
+    // the UBKGBox front end/reverse proxy.
 
     function callpopup(code, term) {
 
@@ -283,13 +283,13 @@
       popup.append("input")
         .attr("type","button")
         .attr("value","Restart tree from selected code")
-        .attr("onclick","window.open(location.pathname + '?umls-key=' + umlskey + '&CodeID=' + document.getElementById('thecode').value,'_self')");
+        .attr("onclick","window.open(location.pathname + '?CodeID=' + document.getElementById('thecode').value,'_self')");
       popup.append()
         .text("  ");
       popup.append("input")
         .attr("type","button")
         .attr("value","Restart default tree")
-        .attr("onclick","window.open(location.pathname + '?umls-key=' + umlskey,'_self')");
+        .attr("onclick","window.open(location.pathname + '_self')");
       popup.append("div")
         .text("-------------------------------------------------------------------------------------------------");
       popup.append("input")
