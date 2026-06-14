@@ -201,7 +201,7 @@
       });
     }
 
-    function Code2Terms() {
+    function Code2TermsOLD() {
         theCodeID = document.getElementById('thecode').value;
         if (theCodeID == "") {return;};
         document.getElementById('thecodedisplay').innerHTML = "Fetching Data..."
@@ -225,6 +225,67 @@
           ;
         });
     }
+
+    function Code2Terms() {
+        var theCodeID = document.getElementById('thecode').value;
+        if (!theCodeID) return;
+
+        var display = document.getElementById('thecodedisplay');
+        display.innerHTML = "Fetching Data...";
+
+        var thevocab = vocabFROMcode(theCodeID);
+        var thecode = codeFROMcode(theCodeID);
+
+        var q = d3.queue();
+        q.defer(Guesdt, '/codes/' + encodeURIComponent(theCodeID) + '/terms');
+
+        q.awaitAll(function(error, data) {
+            if (error) {
+                display.innerHTML = "No Results";
+                return;
+            }
+
+            try {
+                data = JSON.parse(data);
+            } catch (e) {
+                display.innerHTML = "No Results";
+                return;
+            }
+
+            if (!data || !Array.isArray(data.terms) || data.terms.length === 0) {
+                display.innerHTML = "No Results";
+                return;
+            }
+
+            var codeValue = data.code || theCodeID;
+            var html = data.terms.length + " Code-Term pair(s) for the Code: " + codeValue;
+            html += "<table class='result'><tr><td>Code</td><td>TTY</td><td>Term</td></tr>";
+
+            data.terms.forEach(function(item) {
+                var termType = item && item.term_type ? item.term_type : "";
+                var term = item && item.term ? item.term : "";
+
+                html += "<tr>"
+                    + "<td onclick='document.getElementById(\"thecode\").value=this.innerHTML;document.getElementById(\"thecode\").focus();'>"
+                    + codeValue
+                    + "</td>"
+                    + "<td>" + termType + "</td>"
+                    + "<td onclick='document.getElementById(\"theterm\").value=this.innerHTML;document.getElementById(\"theterm\").focus();'>"
+                    + term
+                    + "</td>"
+                    + "</tr>";
+            });
+
+            html += "</table><br />"
+                + "<a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/80x15.png' /></a>"
+                + "<span xmlns:dct='http://purl.org/dc/terms/' property='dct:title'> Guesdt</span> by "
+                + "<a xmlns:cc='http://creativecommons.org/ns#' href='http://www.computationdoc.com' property='cc:attributionName' rel='cc:attributionURL'>Jonathan C. Silverstein</a> "
+                + "is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International License</a>. "
+                + "Based on a work at <a xmlns:dct='http://purl.org/dc/terms/' href='https://d3js.org' rel='dct:source'>https://d3js.org</a>.";
+
+            display.innerHTML = html;
+    });
+}
 
     // popup setup
     contextMenuShowing = true;
