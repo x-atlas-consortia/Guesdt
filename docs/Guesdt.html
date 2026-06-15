@@ -210,6 +210,7 @@
         var q = d3.queue();
         q.defer(Guesdt,'/codes/'+encodeURIComponent(theCodeID)+'/terms')
         q.awaitAll(function(error, data) {
+            console.log(data);
             if (error) throw error;
             try {
               data = JSON.parse(data[0]);
