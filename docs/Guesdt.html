@@ -210,27 +210,28 @@
         var q = d3.queue();
         q.defer(Guesdt,'/codes/'+encodeURIComponent(theCodeID)+'/terms')
         q.awaitAll(function(error, data) {
-         // if (error) throw error;
-          try {
+            if (error) throw error;
+            try {
               data = JSON.parse(data[0]);
-          } catch (e) {
-                document.getElementById('thecodedisplay').innerHTML = "No Results";return;
-          }
+            } catch (e) {
+                document.getElementById('thecodedisplay').innerHTML = "No Results";
+                return;
+            }
 
-          if (!data || !Array.isArray(data.terms) || data.terms.length === 0) {
-            display.innerHTML = "No Results";
-            return;
-          }
+            if (!data || !Array.isArray(data.terms) || data.terms.length === 0) {
+                display.innerHTML = "No Results";
+                return;
+            }
 
-          thetotaltext = data.terms.length + " Code-Term pair(s) for the Code: "+data.code;
-          thetotaltext = thetotaltext + "<table class='result'><tr><td>Code</td><td>TTY</td><td>Term</td></tr>";
-          data.terms.forEach(function(item) {
-              thetotaltext = thetotaltext + "<tr><td onclick='document.getElementById(`thecode`).value=this.innerHTML;document.getElementById(`thecode`).focus();'>"+data.code+"</td> <td>"+item.term_type+"</td> <td onclick='document.getElementById(`theterm`).value=this.innerHTML;document.getElementById(`theterm`).focus();'>"+item.term+"</td></tr>";
-          });
-          document.getElementById('thecodedisplay').innerHTML = thetotaltext + "</table>"
-          + "<br />" +
-          "<a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/80x15.png' /></a><span xmlns:dct='http://purl.org/dc/terms/' property='dct:title'> Guesdt</span> by <a xmlns:cc='http://creativecommons.org/ns#' href='http://www.computationdoc.com' property='cc:attributionName' rel='cc:attributionURL'>Jonathan C. Silverstein</a> is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/''>Creative Commons Attribution 4.0 International License</a>. Based on a work at <a xmlns:dct='http://purl.org/dc/terms/' href='https://d3js.org' rel='dct:source'>https://d3js.org</a>."
-          ;
+            thetotaltext = data.terms.length + " Code-Term pair(s) for the Code: "+data.code;
+            thetotaltext = thetotaltext + "<table class='result'><tr><td>Code</td><td>TTY</td><td>Term</td></tr>";
+            data.terms.forEach(function(item) {
+                thetotaltext = thetotaltext + "<tr><td onclick='document.getElementById(`thecode`).value=this.innerHTML;document.getElementById(`thecode`).focus();'>"+data.code+"</td> <td>"+item.term_type+"</td> <td onclick='document.getElementById(`theterm`).value=this.innerHTML;document.getElementById(`theterm`).focus();'>"+item.term+"</td></tr>";
+            });
+            document.getElementById('thecodedisplay').innerHTML = thetotaltext + "</table>"
+            + "<br />" +
+            "<a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/80x15.png' /></a><span xmlns:dct='http://purl.org/dc/terms/' property='dct:title'> Guesdt</span> by <a xmlns:cc='http://creativecommons.org/ns#' href='http://www.computationdoc.com' property='cc:attributionName' rel='cc:attributionURL'>Jonathan C. Silverstein</a> is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/''>Creative Commons Attribution 4.0 International License</a>. Based on a work at <a xmlns:dct='http://purl.org/dc/terms/' href='https://d3js.org' rel='dct:source'>https://d3js.org</a>."
+            ;
         });
     }
 
