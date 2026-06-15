@@ -212,8 +212,16 @@
         q.awaitAll(function(error, data) {
          // if (error) throw error;
           try {
-              data = JSON.parse(data);
-          } catch (e) {document.getElementById('thecodedisplay').innerHTML = "No Results";return;}
+              data = JSON.parse(data[0]);
+          } catch (e) {
+                document.getElementById('thecodedisplay').innerHTML = "No Results";return;
+          }
+
+          if (!data || !Array.isArray(data.terms) || data.terms.length === 0) {
+            display.innerHTML = "No Results";
+            return;
+          }
+
           thetotaltext = data.terms.length + " Code-Term pair(s) for the Code: "+data.code;
           thetotaltext = thetotaltext + "<table class='result'><tr><td>Code</td><td>TTY</td><td>Term</td></tr>";
           data.terms.forEach(function(item) {
