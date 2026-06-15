@@ -207,6 +207,8 @@
         document.getElementById('thecodedisplay').innerHTML = "Fetching Data..."
         thevocab = vocabFROMcode(document.getElementById('thecode').value);
         thecode = codeFROMcode(document.getElementById('thecode').value);
+        console.log(thevocab);
+        console.log(thecode);
         var q = d3.queue();
         q.defer(Guesdt,'/codes/'+encodeURIComponent(theCodeID)+'/terms')
         q.awaitAll(function(error, data) {
