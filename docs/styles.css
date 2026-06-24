@@ -1,0 +1,94 @@
+.node {
+    cursor: pointer;
+}
+
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.node text {
+    font: 12px sans-serif;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+.link2 {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+div.tooltip {
+    z-index: 1;
+    position: absolute;
+    text-align: left;
+    width: 250px;
+    height: 250px;
+    padding: 5px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 1px #ccc solid;
+    border-radius: 8px;
+    box-shadow: #333 2px 2px 4px;
+    padding: 8px;
+    pointer-events: none;
+    overflow: scroll;
+}
+
+.popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: left;
+    width: 400px;
+    height: 640px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 1px #ccc solid;
+    border-radius: 8px;
+    box-shadow: #333 2px 2px 4px;
+    padding: 8px;
+}
+
+div.thecodedisplaydiv {
+    overflow: scroll;
+    word-wrap: break-word;
+    height: 420px;
+}
+
+div.spinner {
+  height: 60px;
+}
+
+.result {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    overflow-x: scroll;
+    white-space: nowrap;
+    text-align: left;
+    font: 11px sans-serif;
+}
+
+td {
+    padding: 0;
+    margin: 0;
+}
+
+tr:nth-child(odd) {
+    background-color: rgb(222,222,222);
+}
+
+tr:nth-child(even) {
+    background-color: rgb(193, 213, 244);
+}
+
+body {
+    overflow:hidden;
+}
